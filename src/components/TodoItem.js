@@ -10,21 +10,30 @@ export class TodoItem extends Component {
       textDecoration: this.props.todo.completed ? 'line-through' : 'none'
     }
   }
-  markComplete = (e) => { //pokud tady nebude arrow fce, budou tam chyby
-    console.log(this.props);
-  }
+ 
   render() {
+    const { id, title } = this.props.todo;
     return (
       <div style={this.getStyle()}> {/*funkce pro styling (metoda v class, proto tam je this) */}
         <p>
-          <input type="checkbox" onChange={this.markComplete}/> {' '}
-          { this.props.todo.title }
+          <input type="checkbox" onChange={this.props.markComplete.bind(this, id)}/> {' '}
+          { title }
+          <button style={btnStyle}>x</button>
         </p>
       </div>
     )
   }
 }
-
+const btnStyle = {
+  background: '#ff0000',
+  color: '#fff',
+  border: 'none',
+  padding: '5px 8px',
+  borderRadius: '50%',
+  cursor: 'pointer',
+  float: 'right',
+  outline: 'none'
+}
 // PropTypes
 TodoItem.propTypes = {
   todo: PropTypes.object.isRequired
