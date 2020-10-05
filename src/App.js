@@ -2,23 +2,24 @@ import React, { Component } from 'react'
 import Header from './components/layout/Header';
 import Todos from './components/todos/Todos';
 import AddTodo from './components/todos/AddTodo';
+import uuid from 'uuid'; // To si musel nainstalovat
 import './App.css';
 
 class App extends Component {
   state = {
     todos: [
       {
-        id: 1,
+        id: uuid.v4(),
         title: 'Take out the trash',
         completed: false
       },
       {
-        id: 2,
+        id: uuid.v4(),
         title: 'Dinner for visitors',
         completed: false
       },
       {
-        id: 3,
+        id: uuid.v4(),
         title: 'Finish app',
         completed: false
       }
@@ -40,7 +41,12 @@ delTodo = (id) => {
 }
 // Add Todo
 addTodo = (title) => {
-  this.s
+  const newTodo = {
+    id: uuid.v4(),
+    title,
+    completed: false
+  }
+  this.setState({ todos: [...this.state.todos, newTodo] });
 }
 
   render(){
