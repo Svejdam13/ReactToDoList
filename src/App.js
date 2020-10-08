@@ -3,30 +3,18 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Header from './components/layout/Header';
 import Todos from './components/todos/Todos';
 import AddTodo from './components/todos/AddTodo';
+import About from './components/pages/About';
 import { v4 as uuidv4 } from "uuid"; 
-import './App.css';
+import axios from 'axios'; // musis nainstalovat: npm i axios fetch API
 
+import './App.css';
 class App extends Component {
   state = {
-    todos: [
-      {
-        id: uuidv4(), //volas funkci co je v importu (npm install uuid) generujes tim id
-        title: "Take out the trash",
-        completed: false,
-      },
-      {
-        id: uuidv4(),
-        title: "Dinner for visitors",
-        completed: false,
-      },
-      {
-        id: uuidv4(),
-        title: "Finish app",
-        completed: false,
-      },
-    ],
+    todos: [],
   };
-
+componentDidMount() {
+  axios.get('https://jsonplaceholder.typicode.com/todos?_limit=10').then(res => this.setState({todos: res.data })) //axios (promise then)
+} 
   // Toggle Complete
   markComplete = (id) => {
     this.setState({
@@ -57,17 +45,25 @@ class App extends Component {
   render() {
     return (
       <Router>
-      <div className="App">
-        <div className="container">
-          <Header />
-          <AddTodo addTodo={this.addTodo} />
-          <Todos
-            todos={this.state.todos}
-            markComplete={this.markComplete}
-            delTodo={this.delTodo}
-          />
+        <div className="App">
+          <div className="container">
+            <Header />
+            <Route exact
+              path="/"
+              render={(props) => (
+                <React.Fragment>
+                  <AddTodo addTodo={this.addTodo} />
+                  <Todos
+                    todos={this.state.todos}
+                    markComplete={this.markComplete}
+                    delTodo={this.delTodo}
+                  />
+                </React.Fragment>
+              )}
+            />
+            <Route path="/about" component={About} />
+          </div>
         </div>
-      </div>
       </Router>
     );
   }
